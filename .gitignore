@@ -1,0 +1,31 @@
+# Arquivos de byte compilados Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtualenv
+venv/
+env/
+ENV/
+
+# Logs e arquivos de saída
+*.log
+*.pot
+*.pyc
+__pycache__/
+instance/
+
+# Arquivos de configuração locais
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.venv/
+db.sqlite
+db.sqlite3
+
+# Dependências geradas automaticamente
+pip-log.txt
+pip-delete-this-directory.txt
+requirements.txt
