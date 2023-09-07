@@ -1,0 +1,94 @@
+{% extends "template.html" %}
+{% block conteudo %}
+<h1>Cadastro de Fornecedor</h1>
+<div class="container">
+
+    <div class="row align-items-center justify-content-center">
+        <div class="col-md-10 ">
+            <form class="form-control mb-4" action="/criarFornecedor" method="POST">
+                <!-- Campo Nome -->
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Nome</label>
+                    <input type="text" class="form-control" id="nome" placeholder="Amazonas S.A.">
+                </div>
+                <!--CNPJ-->
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">CNPJ</label>
+                    <input type="CNPJ" class="form-control" id="cnpj" placeholder="000000000/0001">
+                </div>
+                <!-- Email e Telefone1-->
+                <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                      <label for="email" class="col-form-label">Email</label>*
+                    </div>
+                    <div class="col-auto">
+                      <input type="text" id="email" class="form-control" aria-describedby="teletone"placeholder="exemplo@gmail.com">
+                    </div>
+                    <div class="col-auto">
+                        <label for="telefone" class="col-form-label">Telefone</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="tel" id="telefone" class="form-control" placeholder="(16)3333-3333 ">
+                    </div>
+                    <div class="col-auto">
+                        <label for="telefone" class="col-form-label">Telefone 2 (opcional)</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="tel" id="telefone" class="form-control" placeholder="(16)3333-3333">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <br><br>
+        <div class="col-md-10"  >
+            <form class="form-control" action="/criarFornecedor" method="POST">
+                <!-- CEP, ESTADO, CIDADE-->
+                <div class="row g-4 align-items-center mb-3">
+                    <div class="col-auto">
+                      <label for="cep" class="col-form-label">CEP</label>
+                    </div>
+                    <div class="col-auto">
+                      <input type="text" id="cep" class="form-control" aria-describedby="teletone"placeholder="14401-200">
+                    </div>
+                    <div class="col-auto">
+                        <label for="cidade" class="col-form-label">Cidade</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" id="telefone" class="form-control" placeholder="FRANCA ">
+                    </div>
+                    <div class="col-auto">
+                        <label for="estaddo" class="col-form-label">ESTADO</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" id="estado" class="form-control" placeholder="SP">
+                    </div>
+                </div>
+                
+                <!-- Endereço -->
+                <div class="row g-4 align-items-center mb-3">
+                    <div class="col-auto">
+                      <label for="cep" class="col-form-label">Endereço</label>*
+                    </div>
+                    <div class="col-auto">
+                      <input type="text" id="cep" class="form-control" aria-describedby="teletone"placeholder="Rua chile">
+                    </div>
+                    <div class="col-auto">
+                        <label for="cidade" class="col-form-label">numero</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" id="telefone" class="form-control" placeholder="FRANCA ">
+                    </div>
+                </div>
+                <div class="row g-3 align-items-center mb-3">
+                    <div class="col-auto">
+                      <label for="complemento" class="col-form-label">Complemento</label>*
+                    </div>
+                    <div class="col-auto">
+                      <input type="text" id="Complemento" class="form-control" aria-describedby="teletone"placeholder="Próximo a Rodoviaria">
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Campo Endereço -->
+{% endblock %}
