@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, session, flash
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.secret_key = 'cecilia'
@@ -38,6 +39,18 @@ usuario1 = Usuario("Ricardo","rickmaranha", "maranha" )
 usuario2 = Usuario("Cecília", "ceciliamaranha", "mariaclara")
 lista_fornecedor = []
 
+
+
+app.config['SQLALCHEMY_DATABASE_URI'] = \
+    '{SGBD}://{usuario}:{senha}@{servidor}/{database}'.format(
+        SGBD = 'mysql+mysqlconnector',
+        usuario = 'root',
+        senha = '123456',
+        servidor = 'localhost'
+        database = 'banco_tg'
+    )
+
+db= SQLAlchemy(app)
 
 @app.route('/')
 def inicio():
