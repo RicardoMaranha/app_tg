@@ -5,42 +5,6 @@ app = Flask(__name__)
 app.secret_key = 'cecilia'
 
 
-class Cliente:
-    def __init__(self, documento, nome, sobrenome, endereco, telefone, email, id_usuario, senha_usuario, id_cliente):
-        self.documento = documento
-        self.nome = nome
-        self.sobrenome = sobrenome
-        self.endereco = endereco
-        self.telefone = telefone
-        self.email = email
-        self.id_usuario = id_usuario
-        self.senha_usuario = senha_usuario
-        self.id_cliente = id_cliente
-        self.pedidos = []
-
-
-class Fornecedor:
-    def __init__(self, cnpj, nome, endereco, telefone, email):
-        self.cnpj = cnpj
-        self.nome = nome
-        self.endereco = endereco
-        self.telefone = telefone
-        self.email = email
-     
-
-class Usuario:
-    def __init__(self,nome,nickname, senha):
-        self.nome = nome
-        self.nickname = nickname
-        self.senha = senha
-
-
-usuario1 = Usuario("Ricardo","rickmaranha", "maranha" )
-usuario2 = Usuario("Cecília", "ceciliamaranha", "mariaclara")
-lista_fornecedor = []
-
-
-
 app.config['SQLALCHEMY_DATABASE_URI'] = \
     '{SGBD}://{usuario}:{senha}@{servidor}/{database}'.format(
         SGBD = 'mysql+mysqlconnector',
@@ -50,7 +14,33 @@ app.config['SQLALCHEMY_DATABASE_URI'] = \
         database = 'banco_tg'
     )
 
-db= SQLAlchemy(app)
+db = SQLAlchemy(app)
+
+class Fornecedores(db.Model):
+    id_fornecedor = db.Column(db.Interger, primary_key=True, autoincrement=True)
+    nome = db.Column(db.String(100), nullable=False)
+    cnpj = db.Column(db.String(18), nullable=False)
+    cep = db.Column(db.String(10))
+    cidade = db.Column(db.String(100))
+    estado = db.Column(db.String(50))
+    rua = db.Column(db.String(255))
+    numero = db.Column(db.Interger)
+    telefone = db.Column(db.String(50))
+    email = db.Column(db.String(50))
+
+    def __repl__(self):
+        return '<NAME %r>' % self.name
+
+
+class Usuarios(db.Model):
+    nickname = db.Column(db.string(50), primary_key=True)
+    nome = db.Column(db.String(100), nullable=False)
+    senha = db.Column(db.String(100), nullable=False)
+
+    def __repl__(self):
+        return '<NAME %r>' % self.name
+
+
 
 @app.route('/')
 def inicio():
@@ -58,7 +48,8 @@ def inicio():
 
 @app.route('/listaFornecedor')
 def listaFornecedor():
-    return render_template('listaFornecedor.html', fornecedores = lista_fornecedor)
+    lista_fornecedores = Fornecedores.query.order_by(Fornecedores.id_fornecedor)
+    return render_template('listaFornecedor.html', fornecedores = lista_fornecedores)
 
 @app.route('/cadastraFornecedor')
 def cadastraFornecedor():
