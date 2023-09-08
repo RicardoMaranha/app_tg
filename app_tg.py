@@ -46,7 +46,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = \
         SGBD = 'mysql+mysqlconnector',
         usuario = 'root',
         senha = '123456',
-        servidor = 'localhost'
+        servidor = 'localhost',
         database = 'banco_tg'
     )
 
