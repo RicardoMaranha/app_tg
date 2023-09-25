@@ -9,41 +9,48 @@
     </ul>
 {% endif %}
 {% endwith %}
-    <h1>Lista de Fornecedores</h1>
-    <div class="table-responsive-sm mb-2 ">
-        <table class="table table-striped
-        table-hover	
-        table-bordere
-        table-light
-        align-middle
-        ">
-            <thead class="table-light">
-                <caption>Lista de Fornecedores</caption>
-                <tr>
-                    <th>CNPJ</th>
-                    <th>Nome</th>
-                    <th>Endereço</th>
-                    <th>Telefone</th>
-                    <th>Email</th>
-                    <th>Editar</th>
-                </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    {% for fornecedor in fornecedores %}
-                    <tr class="table-primary">
-                        <td>{{ fornecedor.cnpj }}</td>
-                        <td>{{ fornecedor.nome }}</td>
-                        <td>{{ fornecedor.endereco }}</td>
-                        <td>{{ fornecedor.telefone}}</td>
-                        <td>{{ fornecedor.email}}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-                <tfoot>
-                    
-                </tfoot>
-        </table>
-        {% endblock %}
+<div class="container-sm me-1">
+    <h1 class="text-bg-dark">Lista de Fornecedores</h1>
+    <bs5-grid-row>
+            <div class="p-3 text-primary-emphasis bg-light-subtle border border-light-subtle rounded-3">
+                    <table class="table table-hover
+                    table-hover	
+                    table-bordere
+                    table-light
+                    align-middle
+                    ">
+                        <thead class="table card-text-">
+                            <caption></caption>
+                            <tr class="table-light">
+                                <th class="table-light">CNPJ</th>
+                                <th class="table-light">Nome</th>
+                                <th class="table-light">Endereço</th>
+                                <th>Telefone</th>
+                                <th>Email</th>
+                                <th>Editar</th>
+                            </tr>
+                            </thead>
+                            <tbody class="table-group-divider">
+                                {% for fornecedor in fornecedores %}
+                                <tr class="table-primary">
+                                    <td>{{ fornecedor.cnpj }}</td>
+                                    <td>{{ fornecedor.nome }}</td>
+                                    <td>{{ 'CEP:{} - {}/{}-{}, {}'.format(fornecedor.cep,fornecedor.cidade,fornecedor.estado,fornecedor.rua,fornecedor.numero)}}</td>
+                                    <td>{{ fornecedor.telefone}}</td>
+                                    <td>{{ fornecedor.email}}</td>
+                                    <td></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                
+                            </tfoot>
+                    </table>
+            </bs5-grid-row>
+        </div>
+
+        </bs5-grid-row>
     </div>
+    {% endblock %}
 
         
