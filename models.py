@@ -23,3 +23,17 @@ class Usuarios(db.Model):
 
     def __repr__(self):
         return '<NAME %r>' % self.name
+    
+
+class Cliente(db.Model):
+    id_cliente = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nome = db.Column(db.String(100), nullable=False)
+    documento = db.Column(db.String(18), unique=True, nullable=False)
+    cep = db.Column(db.String(10))
+    cidade = db.Column(db.String(100))
+    estado = db.Column(db.String(50))
+    rua = db.Column(db.String(255))
+    numero = db.Column(db.String(20))
+    telefone = db.Column(db.String(50))
+    email = db.Column(db.String(50))
+

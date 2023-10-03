@@ -26,7 +26,7 @@ cursor.execute("USE `banco_tg`;")
 TABLES = {}
 TABLES['Fornecedores'] = ('''
         CREATE TABLE `fornecedores` (
-        `id_fornecedor` int(11) NOT NULL AUTO_INCREMENT,
+        `id_fornecedor` int NOT NULL AUTO_INCREMENT,
         `nome` varchar(100) NOT NULL,
         `cnpj` varchar(18) UNIQUE NOT NULL,
         `cep` varchar(10),
@@ -36,12 +36,48 @@ TABLES['Fornecedores'] = ('''
         `numero` varchar(20),
         `telefone` varchar(15),
         `email` varchar(50),
-        PRIMARY KEY (`id_fornecedor`)
+        PRIMARY KEY (`cnpj`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;''')
 
 TABLES['Usuarios'] = ('''
       CREATE TABLE `usuarios` (
       `nome` varchar(50) NOT NULL,
+      `nickname` varchar(50) NOT NULL,
+      `senha` varchar(100) NOT NULL,
+      PRIMARY KEY (`nickname`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;''')
+
+TABLES['Clientes'] = ('''
+      CREATE TABLE `clientes`(
+      `id_cliente` int NOT NULL AUTO_INCREMENT,
+      `nome` varchar(100) NOT NULL,
+      `tipo_cliente` ENUM(`cpf`,`cnpj`) NOT NULL,
+      `documento` varchar(18) UNIQUE NOT NULL,
+      `cep` varchar(10),
+      `cidade` varchar(100),
+      `estado` varchar(50),
+      `rua` varchar(255),
+      `numero` varchar(20),
+      `telefone` varchar(15),
+      `email` varchar(50),
+      PRIMARY KEY (`documento`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;''')
+
+TABLES['Pedidos'] = ('''
+      CREATE TABLE `pedidos` (
+      `id_pedito` INT NOT NULL AUTO_INCREMENT,
+      `nome_cliente` varchar(100),
+      `documento_cliente` varchar(18),
+      `data_pedido` date NOT NULL,               
+      FOREIGN KEY (`nome_cliente`,`documento_cliente`) REFERENCES Clientes(`nome`,`documento`)
+      PRIMARY KEY (`pedido_id`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;''')
+
+TABLES['Itens'] = ('''
+      CREATE TABLE `itens` (
+      `item_id` int NOT NULL AUTO_INCREMENT,
+      ``
+      `nome_cliente` varchar(50) NOT NULL,
       `nickname` varchar(50) NOT NULL,
       `senha` varchar(100) NOT NULL,
       PRIMARY KEY (`nickname`)

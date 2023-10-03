@@ -1,0 +1,59 @@
+{% extends "template.html" %}
+{% block conteudo %}
+<div class="container-sm ">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-md-10 ">
+            <h1 class="text-bg-dark">{{ titulo }}</h1>
+            <form class="form-control mb-4" action="/atualizarFornecedor" method="POST">
+                <input type="hidden" name="id_fornecedor" id="id_fornecedor" value="{{ fornecedor.id_fornecedor}}">
+                <!-- Campo Nome -->
+                <div class="mb-3">
+                    <label  class="form-label">Nome</label>
+                    <input type="text" class="form-control" id="nome" name="nome" value="{{ fornecedor.nome }}" >
+                </div>
+                <!-- Campo CNPJ -->
+                <div class="mb-3">
+                    <label  class="form-label">CNPJ</label>
+                    <input type="text" class="form-control" id="cnpj" name="cnpj" value="{{ fornecedor.cnpj }}" >
+                </div>
+                <!-- Campo CEP -->
+                <div class="mb-3">
+                    <label  class="form-label">Cep</label>
+                    <input type="text" class="form-control" id="cep" name="cep" value="{{ fornecedor.cep }}" >
+                </div>
+                <!-- Campo Cidade -->
+                <div class="mb-3">
+                    <label  class="form-label">Cidade</label>
+                    <input type="text" class="form-control" id="cidade" name="cidade" value="{{ fornecedor.cidade }}" >
+                </div>
+                <!-- Campo Estado -->
+                <div class="mb-3">
+                    <label class="form-label">Estado</label>
+                    <input type="text" class="form-control" id="estado" name="estado" value="{{ fornecedor.estado }}">
+                </div>
+                <!-- Campo Rua -->
+                <div class="mb-3">
+                    <label  class="form-label">Rua</label>
+                    <input type="text" class="form-control" id="rua" name="rua" value="{{ fornecedor.rua }}">
+                </div>
+                <!-- Campo Numero -->
+                <div class="mb-3">
+                    <label  class="form-label">Numero</label>
+                    <input type="text" class="form-control" id="numero" name="numero" value="{{ fornecedor.numero }}">
+                </div>
+                <!-- Campo Telefone -->
+                <div class="mb-3">
+                    <label  class="form-label">Telefone</label>
+                    <input type="text" class="form-control" id="telefone" name="telefone" value="{{ fornecedor.telefone }}">
+                </div>
+                <!-- Campo email -->
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="text" class="form-control" id="email" name="email" value="{{ fornecedor.email }}">
+                </div>
+                <input class="btn btn-primary" type="submit" value="Salvar">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

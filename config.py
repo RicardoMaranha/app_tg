@@ -1,6 +1,6 @@
 
 
-secret_key = 'cecilia'
+SECRET_KEY = 'cecilia260320'
 
 SQLALCHEMY_DATABASE_URI = \
     '{SGBD}://{usuario}:{senha}@{servidor}/{database}'.format(

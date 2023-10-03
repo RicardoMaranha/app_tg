@@ -4,58 +4,50 @@
     <div class="row align-items-center justify-content-center">
         <div class="col-md-10 ">
             <h1 class="text-bg-dark">Cadastro de Fornecedor</h1>
-            <form class="form-control mb-4" action="/criarCliente" method="POST">
+            <form class="form-control mb-4" action="/criarFornecedor" method="POST">
                 <!-- Campo Nome -->
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Nome</label>
+                    <label  class="form-label">Nome</label>
                     <input type="text" class="form-control" id="nome" name="nome" placeholder="Amazonas S.A.">
-                </div>
-                <!-- Tipo -->
-                <div class="mb-3">
-                    <label for="tipo_cliente">Tipo de Cliente:</label>
-                    <select id="tipo_cliente" name="tipo_cliente">
-                        <option value="cpf">CPF</option>
-                        <option value="cnpj">CNPJ</option>
-                    </select>
                 </div>
                 <!-- Campo CNPJ -->
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Documento</label>
-                    <input type="text" class="form-control" id="documento" name="documento" placeholder="000.000.000-32">
+                    <label  class="form-label">CNPJ</label>
+                    <input type="text" class="form-control" id="cnpj" name="cnpj" placeholder="Amazonas S.A.">
                 </div>
                 <!-- Campo CEP -->
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Cep</label>
+                    <label  class="form-label">Cep</label>
                     <input type="text" class="form-control" id="cep" name="cep" placeholder="Amazonas S.A.">
                 </div>
                 <!-- Campo Cidade -->
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Cidade</label>
+                    <label  class="form-label">Cidade</label>
                     <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Amazonas S.A.">
                 </div>
                 <!-- Campo Estado -->
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Estado</label>
+                    <label class="form-label">Estado</label>
                     <input type="text" class="form-control" id="estado" name="estado" placeholder="Amazonas S.A.">
                 </div>
                 <!-- Campo Rua -->
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Rua</label>
+                    <label  class="form-label">Rua</label>
                     <input type="text" class="form-control" id="rua" name="rua" placeholder="Amazonas S.A.">
                 </div>
                 <!-- Campo Numero -->
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Numero</label>
+                    <label  class="form-label">Numero</label>
                     <input type="text" class="form-control" id="numero" name="numero" placeholder="Amazonas S.A.">
                 </div>
                 <!-- Campo Telefone -->
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Telefone</label>
+                    <label  class="form-label">Telefone</label>
                     <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Amazonas S.A.">
                 </div>
                 <!-- Campo email -->
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Email</label>
+                    <label class="form-label">Email</label>
                     <input type="text" class="form-control" id="email" name="email" placeholder="Amazonas S.A.">
                 </div>
                 <input class="btn btn-primary" type="submit" value="Salvar">
