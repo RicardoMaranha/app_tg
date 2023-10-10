@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, session, flash, url_for
 from app_tg import app, db
-from models import Fornecedores, Usuarios, Cliente
+from models import Fornecedores, Usuarios, Clientes
 
 # Rotas Pagina Inicial
 @app.route('/')
@@ -113,3 +113,39 @@ def excluirFornecedor(id_fornecedor):
     return redirect(url_for('listaFornecedor'))
 
 
+@app.route('/listaCliente')
+def listaCliente():
+    lista_cliente = Clientes.query.order_by(Clientes.id_cliente)
+    return render_template('listaCliente.html', titulo='Lista de Clientes', clientes=lista_cliente)
+
+@app.route('/cadastraCliente')
+def cadastraCliente():
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login', proxima=url_for('cadastraCliente')))
+    return render_template('cadastraCliente.html', titulo='Cadastrar Cliente')
+
+
+@app.route('/criarCliente', methods=['POST', ])
+def criarCliente():
+    documento = request.form['documento']
+    nome = request.form['nome']
+    cep = request.form['cep']
+    cidade = request.form['cidade']
+    estado = request.form['estado']
+    rua = request.form['rua']
+    numero = request.form['numero']
+    telefone = request.form['telefone']
+    email = request.form['email']
+
+    cliente = Clientes.query.filter_by(nome=nome).first()
+
+    if cliente:
+        flash('Cliente já cadastrado!')
+        return redirect(url_for('listaCliente'))
+
+    novo_cliente = Clientes(documento=documento, nome=nome, cep=cep, cidade=cidade, estado=estado, rua=rua, numero=numero,
+                                   telefone=telefone, email=email)
+    db.session.add(novo_cliente)
+    db.session.commit()
+
+    return redirect(url_for('listaCliente'))

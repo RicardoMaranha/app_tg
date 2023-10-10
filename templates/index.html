@@ -1,12 +1,32 @@
 {% extends "template.html" %}
 {% block conteudo %}
-{% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul id="messages" class="list-unstyled">
-            {% for message in messages %}
-                <li class="alert alert-success">{{ message }}</li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
+<div class="container-sm">
+    <div class="logincontent">
+        <h1>Login</h1>
+        <form method="POST" action="/autenticar">
+            <input class="inputform" type="text" placeholder="Nome" name="usuario" required>
+            <br><br>
+            <input class="inputform" type="password" placeholder="Senha" name="senha" required >
+            <br><br>
+            <button class="button1">Enviar</button>
+        </form>
+        <br><br>
+        
+        <div class="container-sm ">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                
+                    <ul id="messages" class="list-unstyled">
+                    {% for message in messages %}
+                    
+                        <li class="alert alert-success">{{ message }}</li>
+                    
+                    {% endfor %}
+                    </ul>
+        </div>
+    </div>
+
+                {% endif %}
+            {% endwith %}
+
 {% endblock %}

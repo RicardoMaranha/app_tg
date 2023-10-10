@@ -36,7 +36,7 @@ TABLES['Fornecedores'] = ('''
         `numero` varchar(20),
         `telefone` varchar(15),
         `email` varchar(50),
-        PRIMARY KEY (`cnpj`)
+        PRIMARY KEY (`id_fornecedor`, `cnpj`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;''')
 
 TABLES['Usuarios'] = ('''
@@ -51,7 +51,6 @@ TABLES['Clientes'] = ('''
       CREATE TABLE `clientes`(
       `id_cliente` int NOT NULL AUTO_INCREMENT,
       `nome` varchar(100) NOT NULL,
-      `tipo_cliente` ENUM(`cpf`,`cnpj`) NOT NULL,
       `documento` varchar(18) UNIQUE NOT NULL,
       `cep` varchar(10),
       `cidade` varchar(100),
@@ -60,10 +59,12 @@ TABLES['Clientes'] = ('''
       `numero` varchar(20),
       `telefone` varchar(15),
       `email` varchar(50),
-      PRIMARY KEY (`documento`)
+      PRIMARY KEY (`id_cliente`, `documento`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;''')
 
-TABLES['Pedidos'] = ('''
+
+"""
+TABLES['Ficha'] = ('''
       CREATE TABLE `pedidos` (
       `id_pedito` INT NOT NULL AUTO_INCREMENT,
       `nome_cliente` varchar(100),
@@ -72,16 +73,17 @@ TABLES['Pedidos'] = ('''
       FOREIGN KEY (`nome_cliente`,`documento_cliente`) REFERENCES Clientes(`nome`,`documento`)
       PRIMARY KEY (`pedido_id`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;''')
+"""
 
-TABLES['Itens'] = ('''
+TABLES['Item'] = ('''
       CREATE TABLE `itens` (
-      `item_id` int NOT NULL AUTO_INCREMENT,
-      ``
-      `nome_cliente` varchar(50) NOT NULL,
-      `nickname` varchar(50) NOT NULL,
-      `senha` varchar(100) NOT NULL,
-      PRIMARY KEY (`nickname`)
+      `id_item` int NOT NULL AUTO_INCREMENT,
+      `referencia` varchar(50) NOT NULL,
+      `quantidade` varchar(50) NOT NULL,
+      PRIMARY KEY (`id_item`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;''')
+
+
 
 for tabela_nome in TABLES:
       tabela_sql = TABLES[tabela_nome]
