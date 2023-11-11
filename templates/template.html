@@ -10,41 +10,47 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 <body class="body">
-    
-    <div>
-      <nav class="sidebar text-bg-dark">
-              <div class="offcanvas-body">
-                <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Software Legal S.A</h5>
-                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                  <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('login')}}"><i class="bi bi-person-circle"></i>    Login</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('cadastraCliente')}}"><i class="bi bi-person-fill-add"></i>    Cadastrar CLiente</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('listaCliente')}}"><i class="bi bi-person-circle"></i>    Clientes</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link active offcanvas-start" aria-current="page" href="{{url_for('cadastraFornecedor2')}}"><i class="bi bi-buildings"></i>    Cadastrar Fornecedor</a></i>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('listaFornecedor')}}"><i class="bi bi-card-list"></i>    Fornecedores</a>
-                  </li>
-                </ul>
-              </div>   
-      </div>
-  </nav>
-     
-            
-  </div>
 
-    </div>
-    <div class="conteudoposition">
-      <div class="container-fluid mb3">
-          {% block conteudo %}{% endblock %}
-      </div>
-    </div>
+<div class="row">
+        <div class="col-sm-8">
+            <nav class="sidebar text-bg-dark">
+                <div class="container-sm">
+                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Software Legal S.A</h5>
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('login')}}"><i class="bi bi-person-circle"></i>    Login </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('cadastraCliente')}}"><i class="bi bi-person-fill-add"></i>    Cadastrar CLiente</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('listaCliente')}}"><i class="bi bi-person-circle"></i>    Clientes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active offcanvas-start" aria-current="page" href="{{url_for('cadastraFornecedor')}}"><i class="bi bi-buildings"></i>    Cadastrar Fornecedor</a></i>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('listaFornecedor')}}"><i class="bi bi-card-list"></i>    Fornecedores</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('listaMateriaPrima')}}"><i class="bi bi-card-list"></i>    Lista Material</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col-md-10">
+            <div class="conteudoposition">
+                {% block conteudo %}{% endblock %}
+            </div>
+        </div>
+</div>
     <script>
         function toggleSidebar() {
             var sidebar = document.getElementById("sidebar");

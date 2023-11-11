@@ -4,61 +4,49 @@
     <div class="row align-items-center justify-content-center">
         <div class="col-md-10 ">
             <form class="form-control mb-4" action="/criarCliente" method="POST">
-                <h1 class="text-bg-dark">{{ titulo }}</h1>
-                <!-- Campo Nome -->
-                <div class="mb-3">
-                    <label class="form-label">Nome</label>
-                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Amazonas S.A.">
-                </div>
-                <!-- Tipo -->
-                <div class="mb-3">
-                    <label for="tipo_cliente">Tipo de Cliente:</label>
-                    <select id="tipo_cliente" name="tipo_cliente">
-                        <option value="cpf">CPF</option>
-                        <option value="cnpj">CNPJ</option>
-                    </select>
-                </div>
-                <!-- Campo CNPJ -->
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Documento</label>
-                    <input type="text" class="form-control" id="documento" name="documento" placeholder="000.000.000-32">
-                </div>
-                <!-- Campo CEP -->
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Cep</label>
-                    <input type="text" class="form-control" id="cep" name="cep" placeholder="Amazonas S.A.">
-                </div>
-                <!-- Campo Cidade -->
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Cidade</label>
-                    <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Amazonas S.A.">
-                </div>
-                <!-- Campo Estado -->
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Estado</label>
-                    <input type="text" class="form-control" id="estado" name="estado" placeholder="Amazonas S.A.">
-                </div>
-                <!-- Campo Rua -->
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Rua</label>
-                    <input type="text" class="form-control" id="rua" name="rua" placeholder="Amazonas S.A.">
-                </div>
-                <!-- Campo Numero -->
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Numero</label>
-                    <input type="text" class="form-control" id="numero" name="numero" placeholder="Amazonas S.A.">
-                </div>
-                <!-- Campo Telefone -->
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Telefone</label>
-                    <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Amazonas S.A.">
-                </div>
-                <!-- Campo email -->
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Email</label>
-                    <input type="text" class="form-control" id="email" name="email" placeholder="Amazonas S.A.">
-                </div>
-                <input class="btn btn-primary" type="submit" value="Salvar">
+                <h1 class="text-primary-emphasis">{{ titulo }}</h1>
+                <fieldset>
+                      {{ form.csrf_token() }}
+                      <div class="mb-3">
+                        {{ form.documento.label(class="form-label") }}
+                        {{ form.documento(class="form-control") }}
+                      </div>
+                      <div class="mb-3">
+                        {{ form.nome.label(class="form-label") }}
+                        {{ form.nome(class="form-control") }}
+                      </div>
+                      <div class="mb-3">
+                        {{ form.cep.label(class="form-label") }}
+                        {{ form.cep(class="form-control") }}
+                      </div>
+                      <div class="mb-3">
+                        {{ form.cidade.label(class="form-label") }}
+                        {{ form.cidade(class="form-control") }}
+                      </div>
+                      <div class="mb-3">
+                        {{ form.estado.label(class="form-label") }}
+                        {{ form.estado(class="form-control") }}
+                      </div>
+                      <div class="mb-3">
+                        {{ form.rua.label(class="form-label") }}
+                        {{ form.rua(class="form-control") }}
+                      </div>
+                      <div class="mb-3">
+                        {{ form.numero.label(class="form-label") }}
+                        {{ form.numero(class="form-control") }}
+                      </div>
+                      <div class="mb-3">
+                        {{ form.telefone.label(class="form-label") }}
+                        {{ form.telefone(class="form-control") }}
+                      </div>
+                      <div class="mb-3">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control") }}
+                      </div>
+                      <div class="mb-3">
+                        {{ form.salvar(class="btn btn-primary") }}
+                      </div>
+                </fieldset>
             </form>
         </div>
     </div>

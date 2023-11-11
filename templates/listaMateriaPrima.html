@@ -22,27 +22,21 @@
                         <thead class="table card-text-">
                             <caption></caption>
                             <tr class="table-light">
-                                <th class="table-light">CNPJ</th>
+                                <th class="table-light">Id_Material</th>
+                                <th class="table-light">Referencia</th>
                                 <th class="table-light">Nome</th>
-                                <th class="table-light">Endereço</th>
-                                <th>Telefone</th>
-                                <th>Email</th>
-                                <th>Editar</th>
-                                <th>Excluir</th>
+                                <th class="table-light">Editar</th>
+                                <th class="table-light">Excluir</th>
                             </tr>
                             </thead>
                             <tbody class="table-group-divider">
-                                {% for cliente in clientes %}
+                                {% for material in materiais %}
                                 <tr class="table-light">
-                                    <td>{{ cliente.documento }}</td>
-                                    <td>{{ cliente.nome }}</td>
-                                    <td>{{ 'CEP:{} - {}/{}-{}, {}'.format(cliente.cep,cliente.cidade,cliente.estado,cliente.rua,cliente.numero)}}</td>
-                                    <td>{{ cliente.telefone}}</td>
-                                    <td>{{ cliente.email}}</td>
-                                    <td><a href="{{url_for('editarCliente', id_cliente=cliente.id_cliente)}}" >Editar</a></td>
-                                    <td><a href="{{url_for('excluirCliente', id_cliente=cliente.id_cliente)}}" >Excluir</a></td>
-
-                                    <td></td>
+                                    <td>{{ material.id_materiaprima }}</td>
+                                    <td>{{ material.referencia_material }}</td>
+                                    <td>{{ material.nome_material}}</td>
+                                    <td><a href="" >Editar</a></td>
+                                    <td><a href="" >Excluir</a></td>
                                 </tr>
                                 {% endfor %}
 
@@ -50,10 +44,10 @@
                             <tfoot>
                         </tfoot>
                     </table>
-                    <a class="btn-primary" href="{{url_for('cadastraCliente')}}">
-                            <input class="btn btn-primary" type="button" value="Cadastra Cliente">
+                    <a class="btn-primary" href="{{ url_for('cadastraMateriaPrima')}}">
+                            <input class="btn btn-primary" type="button" value="Cadastra Material">
                     </a>
-                </bs5-grid-row>
+            </bs5-grid-row>
             </div>
         </bs5-grid-row>
     </div>

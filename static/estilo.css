@@ -20,15 +20,16 @@
 
 .conteudoposition{
     padding-top: 35px;
-    position: initial;
+    position: relative;
     top: 35px;
-    left: 180px;
+    left: 250px;
 }
 
 .logincontent{
+
     background-color: rgba(0,0,0, 0.7);
     position: absolute;
-    top: 50%;
+    top: 250px;
     left: 50%;
     transform: translate(-50%,-50%);
     padding: 80px;

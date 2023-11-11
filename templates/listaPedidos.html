@@ -1,4 +1,55 @@
 {% extends "template.html" %}
 {% block conteudo %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    <ul id="messages" class="list-unstyled">
+    {% for message in messages %}
+        <li class="alert alert-success">{{ message }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+{% endwith %}
+                <div class="p-3 text-primary-emphasis bg-light-subtle border border-light-subtle rounded-3">
+                    <h1 class="text-primary-emphasis">{{ titulo }}</h1>
+                    <table class="table table-hover
+                    table-hover
+                    table-bordere
+                    table-light
+                    align-middle
+                    ">
+                        <thead class="table card-text-">
+                        <tr class="table-light">
+                            <th class="table-light">id_pedido</th>
+                            <th class="table-light">cliente</th>
+                            <th class="table-light">referencia</th>
+                            <th class="table-light">tamanho</th>
+                            <th class="table-light">quantidade</th>
+                            <th>Editar</th>
+                            <th>Excluir</th>
+                        </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                        {% for pedido, cliente, item, tamanho in pedidos %}
 
-{% block conteudo %}{% endblock %}
+                            <tr class="table-light">
+                                <td>{{ pedido.id_pedido }}</td>
+                                <td>{{ cliente.nome }}</td>
+                                <td>{{ item.referencia }}</td>
+                                <td>{{ tamanho.tamanho_item }}</td>
+                                <td>{{ pedido.quantidade }}</td>
+                                <td><a href="" >Editar</a></td>
+                                <td><a href="" >Excluir</a></td>
+                                <td></td>
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                    <a class="btn-primary" href="{{url_for('registrarPedido')}}">
+                        <input class="btn btn-primary" type="button" value="Registrar Pedido">
+                    </a>
+                </div>
+{% endblock %}
