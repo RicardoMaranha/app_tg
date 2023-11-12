@@ -1,8 +1,8 @@
 from flask import render_template, request, redirect, session, flash, url_for
 from app_tg import app, db
 from models import Fornecedores, Usuarios, Clientes, MateriaPrima, EstoqueMateriaPrima
-from helpers import FormUsuario, FormFornecedores, FormCadastraMateriaPrima, FormClientes
-
+from helpers import FormUsuario, FormFornecedores, FormCadastraMateriaPrima, FormClientes, EstoqueMateriaPrimaForm
+from datetime import datetime
 
 # Rotas Pagina Inicial
 @app.route('/')
@@ -106,7 +106,7 @@ def editarFornecedor(id_fornecedor):
     form.numero.data = fornecedor.numero
     form.telefone.data = fornecedor.telefone
     form.email.data = fornecedor.email
-    return render_template("editarFornecedor.html", fornecedor=fornecedor, titulo='Editar Fornecedor', form=form)
+    return render_template("editarFornecedor.html", fornecedor=fornecedor, titulo='Editar Fornecedor', form=form, id_fornecedor=id_fornecedor)
 
 
 #Rota para atualizar Fornecedor
@@ -156,6 +156,7 @@ def cadastraCliente():
     form = FormClientes(request.form)
     return render_template('cadastraCliente.html', titulo='Cadastrar Cliente', form=form)
 
+
 # Rota para criar Cliente
 @app.route('/criarCliente', methods=['POST', ])
 def criarCliente():
@@ -189,27 +190,43 @@ def editarCliente(id_cliente):
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login', proxima=url_for('editarCliente')))
     cliente = Clientes.query.filter_by(id_cliente=id_cliente).first()
-    return render_template("editarCliente.html", cliente=cliente, titulo='Editar Cliente')
+    form = FormClientes()
+    form.nome.data = cliente.nome
+    form.documento.data = cliente.documento
+    form.cep.data = cliente.cep
+    form.cidade.data = cliente.cidade
+    form.estado.data = cliente.estado
+    form.rua.data = cliente.rua
+    form.numero.data = cliente.numero
+    form.telefone.data = cliente.telefone
+    form.email.data = cliente.email
+
+    return render_template("editarCliente.html", form=form, titulo='Editar Cliente', id_cliente=cliente.id_cliente)
 
 
 #Rota para Atualizar Cliente
 @app.route('/atualizarCliente', methods=['POST',])
 def atualizarCliente():
-    cliente = Clientes.query.filter_by(id_cliente=request.form['id_cliente']).first()
-    cliente.documento = request.form['documento']
-    cliente.nome = request.form['nome']
-    cliente.cep = request.form['cep']
-    cliente.cidade = request.form['cidade']
-    cliente.estado = request.form['estado']
-    cliente.rua = request.form['rua']
-    cliente.numero = request.form['numero']
-    cliente.telefone = request.form['telefone']
-    cliente.email = request.form['email']
+    form = FormClientes(request.form)
 
-    db.session.add(cliente)
-    db.session.commit()
+    if form.validate_on_submit():
+        cliente_id = request.form['id_cliente']
+        cliente = Clientes.query.get(cliente_id)
+        print(cliente_id)
+        if cliente:
+            try:
+                form.populate_obj(cliente)
+                db.session.add(cliente)  # Adicione esta linha para informar à sessão sobre as alterações
+                db.session.commit()
+                flash('Cliente atualizado com sucesso!', 'success')
+            except Exception as e:
+                flash(f'Erro ao atualizar o cliente: {str(e)}', 'danger')
+                db.session.rollback()  # Desfaz as alterações em caso de erro
+        else:
+            flash('Cliente não encontrado.', 'danger')
 
     return redirect(url_for('listaCliente'))
+
 
 
 # Rota Excluir Cliente
@@ -218,7 +235,7 @@ def excluirCliente(id_cliente):
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login'))
 
-    Clientes.query.filter_by(id_fornecedor=id_cliente).delete()
+    Clientes.query.filter_by(id_cliente=id_cliente).delete()
     db.session.commit()
     flash('Cliente exluido com sucesso!')
     return redirect(url_for('listaCliente'))
@@ -255,7 +272,138 @@ def criarMateriaPrima():
     return redirect(url_for('listaMateriaPrima'))
 
 
-#Rota não implementada
+# Rota para editar Materia Prima
+@app.route('/editarMateriaPrima/<int:id_materiaprima>')
+def editarMateriaPrima(id_materiaprima):
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login',
+                                proxima=url_for('editarMateriaPrima',
+                                                         id_materiaprima=id_materiaprima)))
+    material = MateriaPrima.query.filter_by(id_materiaprima=id_materiaprima).first()
+    form = FormCadastraMateriaPrima()
+    form.referencia_material.data = material.referencia_material
+    form.nome_material.data = material.nome_material
+    return render_template("editarMateriaPrima.html", form=form,
+                           titulo='Editar Materia Prima',
+                           id_materiaprima=material.id_materiaprima)
+
+
+#Rota para Atualizar Materia Prima
+@app.route('/atualizarMateriaPrima', methods=['POST',])
+def atualizarMateriaPrima():
+    form = FormCadastraMateriaPrima(request.form)
+
+    if form.validate_on_submit():
+        material = MateriaPrima.query.filter_by(id_materiaprima=request.form['id_materiaprima']).first()
+        material.referencia_material = form.referencia_material.data
+        material.nome_material = form.nome_material.data
+
+        db.session.add(material)
+        db.session.commit()
+
+    return redirect(url_for('listaMateriaPrima'))
+
+
+#Excluir Materia Prima
+@app.route('/excluirMateriaPrima/<int:id_materiaprima>')
+def excluirMateriaPrima(id_materiaprima):
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login'))
+
+    MateriaPrima.query.filter_by(id_materiaprima=id_materiaprima).delete()
+    db.session.commit()
+    flash('Materia Prima excluida com sucesso!')
+    return redirect(url_for('listaMateriaPrima'))
+
+
+
+#Lista Estoque Materia Prima
+@app.route('/listaEstoqueMateriaPrima')
+def listaEstoqueMateriaPrima():
+    materiais = db.session.query(MateriaPrima, EstoqueMateriaPrima).join(EstoqueMateriaPrima, MateriaPrima.id_materiaprima == EstoqueMateriaPrima.materiaprima).all()
+
+    return render_template('listaEstoqueM.html', titulo='Estoque Materia Prima', materiais=materiais)
+
+@app.route('/cadastraEstoqueMateriaPrima')
+def cadastraEstoqueMateriaPrima():
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login', proxima=url_for('cadastraEstoqueMateriaPrima')))
+    form = EstoqueMateriaPrimaForm(request.form)
+    form.materia_prima.choices = [(m.id_materiaprima, m.nome_material) for m in MateriaPrima.query.all()]
+    return render_template('cadastraEstoqueMateriaPrima.html', titulo='Cadastro de Estoque Materia Prima', form=form)
+
+
+@app.route('/criarEstoqueMateriaPrima', methods=['GET','POST', ])
+def criarEstoqueMateriaPrima():
+    form = EstoqueMateriaPrimaForm()
+    if form.validate_on_submit():
+        # Acesse os dados do formulário
+        materia_prima_id = form.materia_prima.data
+        quantidade = form.quantidade.data
+        data_entrada = form.data_entrada.data
+        data_validade = form.data_validade.data
+
+        estoque_materia_prima = EstoqueMateriaPrima(
+            materiaprima=materia_prima_id,
+            quantidade=quantidade,
+            data_entrada=data_entrada,
+            data_validade=data_validade
+        )
+        db.session.add(estoque_materia_prima)
+        db.session.commit()
+
+    return redirect(url_for('listaEstoqueMateriaPrima'))
+
+
+
+# Rota para editar Estoque de Materia Prima
+@app.route('/editarEstoqueMateriaPrima/<int:id_estoque>')
+def editarEstoqueMateriaPrima(id_estoque):
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login',
+                                proxima=url_for('editarEstoqueMateriaPrima',
+                                                         id_estoque=id_estoque)))
+    estoque = EstoqueMateriaPrima.query.filter_by(id_estoque=id_estoque).first()
+    form = EstoqueMateriaPrimaForm()
+    form.materia_prima.data = estoque.materiaprima
+    form.quantidade.data = estoque.quantidade
+    form.data_entrada.data = datetime.strptime(estoque.data_entrada, '%Y-%m-%d')
+    form.data_validade.data = datetime.strptime(estoque.data_validade, '%Y-%m-%d')
+
+
+    return render_template("editarEstoqueM.html", form=form,
+                           titulo='Editar Materia Prima',
+                           id_estoque=estoque.id_estoque)
+
+
+@app.route('/atualizarEstoqueMateriaPrima', methods=['POST',])
+def atualizarEstoqueMateriaPrima():
+    form = EstoqueMateriaPrimaForm(request.form)
+
+    if form.validate_on_submit():
+        estoque = EstoqueMateriaPrima.query.filter_by(id_estoque=request.form['id_estoque']).first()
+        estoque.materiaprima = form.materia_prima.data
+        estoque.quantidade = form.quantidade.data
+        estoque.data_entrada = form.data_entrada.data
+        estoque.data_validade = form.data_validade.data
+        db.session.add(estoque)
+        db.session.commit()
+
+    return redirect(url_for('listaEstoqueMateriaPrima'))
+
+#Excluir Estoque
+@app.route('/excluirEstoqueMateriaPrima/<int:id_estoque>')
+def excluirEstoqueMateriaPrima(id_estoque):
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login'))
+
+    EstoqueMateriaPrima.query.filter_by(id_estoque=id_estoque).delete()
+    db.session.commit()
+    flash('Materia Prima excluida com sucesso!')
+    return redirect(url_for('listaEstoqueMateriaPrima'))
+
+
+#Rotas não implementada
 '''
 @app.route('/listaPedidos')
 def listaPedidos():

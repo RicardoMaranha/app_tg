@@ -123,11 +123,12 @@ TABLES['MateriaPrima'] = ('''
 
 TABLES['EstoqueMateriaPrima'] = ('''
       CREATE TABLE `estoquemateriaprima` (
+    `id_estoque` int NOT NULL AUTO_INCREMENT,
     `materiaprima` int NOT NULL,
     `quantidade` int NOT NULL,
     `data_entrada` varchar(10) NOT NULL,
     `data_validade` varchar(10),
-    PRIMARY KEY (`materiaprima`),
+    PRIMARY KEY (`id_estoque`),
     FOREIGN KEY (`materiaprima`) REFERENCES `materiaprima` (`id_materiaprima`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;''')
 
@@ -269,8 +270,8 @@ for material in cursor.fetchall():
 # inserindo estoque materia prima
 estomaterial_sql = 'INSERT INTO estoquemateriaprima (materiaprima, quantidade, data_entrada, data_validade) VALUES (%s, %s, %s, %s) ON DUPLICATE KEY UPDATE quantidade = quantidade + VALUES (quantidade)'
 estomaterial = [
-      (1, 1000, '11/11/2023', '11/11/2024'),
-      (2, 1000, '11/11/2023', '11/11/2024'),
+      (1, 1000, '2023-11-11', '2024-11-11'),
+      (2, 1000, '2023-11-11', '2024-11-11'),
 ]
 cursor.executemany(estomaterial_sql, estomaterial)
 

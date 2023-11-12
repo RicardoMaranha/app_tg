@@ -3,55 +3,53 @@
 <div class="container-sm ">
     <div class="row align-items-center justify-content-center">
         <div class="col-md-10 ">
-            <form class="form-control mb-4" action="/atualizarCliente" method="POST">
+            <form class="form-control mb-4" action="{{url_for('atualizarCliente')}}" method="POST" enctype="multipart/form-data">
                 <h1 class="text-primary-emphasis">{{ titulo }}</h1>
-                <input type="hidden" name="id_cliente" id="id_cliente" value="{{ cliente.id_cliente}}">
-                <!-- Campo Nome -->
-                <div class="mb-3">
-                    <label  class="form-label">Nome</label>
-                    <input type="text" class="form-control" id="nome" name="nome" value="{{ cliente.nome }}" >
-                </div>
-                <!-- Campo CNPJ -->
-                <div class="mb-3">
-                    <label  class="form-label">Documento</label>
-                    <input type="text" class="form-control" id="documento" name="documento" value="{{ cliente.documento }}" >
-                </div>
-                <!-- Campo CEP -->
-                <div class="mb-3">
-                    <label  class="form-label">Cep</label>
-                    <input type="text" class="form-control" id="cep" name="cep" value="{{ cliente.cep }}" >
-                </div>
-                <!-- Campo Cidade -->
-                <div class="mb-3">
-                    <label  class="form-label">Cidade</label>
-                    <input type="text" class="form-control" id="cidade" name="cidade" value="{{ cliente.cidade }}" >
-                </div>
-                <!-- Campo Estado -->
-                <div class="mb-3">
-                    <label class="form-label">Estado</label>
-                    <input type="text" class="form-control" id="estado" name="estado" value="{{ cliente.estado }}">
-                </div>
-                <!-- Campo Rua -->
-                <div class="mb-3">
-                    <label  class="form-label">Rua</label>
-                    <input type="text" class="form-control" id="rua" name="rua" value="{{ cliente.rua }}">
-                </div>
-                <!-- Campo Numero -->
-                <div class="mb-3">
-                    <label  class="form-label">Numero</label>
-                    <input type="text" class="form-control" id="numero" name="numero" value="{{ cliente.numero }}">
-                </div>
-                <!-- Campo Telefone -->
-                <div class="mb-3">
-                    <label  class="form-label">Telefone</label>
-                    <input type="text" class="form-control" id="telefone" name="telefone" value="{{ cliente.telefone }}">
-                </div>
-                <!-- Campo email -->
-                <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input type="text" class="form-control" id="email" name="email" value="{{ cliente.email }}">
-                </div>
-                <input class="btn btn-primary" type="submit" value="Salvar">
+                <fieldset>
+                    <input type="hidden" name="id_cliente" value="{{ id_cliente }}">
+                    {{ form.csrf_token() }}
+                    <div class="form-group">
+                        {{ form.nome.label(class="form-label") }}
+                        {{ form.nome(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.documento.label(class="form-label") }}
+                        {{ form.documento(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.cep.label(class="form-label") }}
+                        {{ form.cep(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.cidade.label(class="form-label") }}
+                        {{ form.cidade(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.estado.label(class="form-label") }}
+                        {{ form.estado(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.rua.label(class="form-label") }}
+                        {{ form.rua(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.numero.label(class="form-label") }}
+                        {{ form.numero(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.telefone.label(class="form-label") }}
+                        {{ form.telefone(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.salvar(class="btn btn-primary") }}
+                        <a class="btn btn-danger" href="{{ url_for('listaCliente') }}">Voltar</a>
+                    </div>
+                </fieldset>
+
             </form>
         </div>
     </div>

@@ -22,21 +22,25 @@
                         <thead class="table card-text-">
                             <caption></caption>
                             <tr class="table-light">
-                                <th class="table-light">Id_Material</th>
-                                <th class="table-light">Referencia</th>
-                                <th class="table-light">Nome</th>
-                                <th class="table-light">Editar</th>
-                                <th class="table-light">Excluir</th>
+                                <th class="table-light">Materia Prima</th>
+                                <th class="table-light">Quantidade</th>
+                                <th class="table-light">Data de Entrada</th>
+                                <th class="table-light">Data de Validade</th>
+                                <th>Editar</th>
+                                <th>Excluir</th>
                             </tr>
                             </thead>
                             <tbody class="table-group-divider">
-                                {% for material in materiais %}
+                                {% for materiaprima, estoquemateriaprima in materiais %}
                                 <tr class="table-light">
-                                    <td>{{ material.id_materiaprima }}</td>
-                                    <td>{{ material.referencia_material }}</td>
-                                    <td>{{ material.nome_material}}</td>
-                                    <td><a href="{{ url_for('editarMateriaPrima',id_materiaprima=material.id_materiaprima)}}" >Editar</a></td>
-                                    <td><a href="{{ url_for('excluirMateriaPrima',id_materiaprima=material.id_materiaprima)}}" >Excluir</a></td>
+                                    <td>{{ materiaprima.nome_material }}</td>
+                                    <td>{{ estoquemateriaprima.quantidade }}</td>
+                                    <td>{{ estoquemateriaprima.data_entrada}}</td>
+                                    <td>{{ estoquemateriaprima.data_validade}}</td>
+                                    <td><a href="{{url_for( 'editarEstoqueMateriaPrima', id_estoque=estoquemateriaprima.id_estoque ) }}" >Editar</a></td>
+                                    <td><a href="{{url_for( 'excluirEstoqueMateriaPrima', id_estoque=estoquemateriaprima.id_estoque ) }}" >Excluir</a></td>
+
+                                    <td></td>
                                 </tr>
                                 {% endfor %}
 
@@ -44,8 +48,8 @@
                             <tfoot>
                         </tfoot>
                     </table>
-                    <a class="btn-primary" href="{{ url_for('cadastraMateriaPrima')}}">
-                            <input class="btn btn-primary" type="button" value="Cadastra Material">
+                    <a class="btn-primary" href="{{url_for('cadastraEstoqueMateriaPrima')}}">
+                            <input class="btn btn-primary" type="button" value="Entrada de Material">
                     </a>
                 </bs5-grid-row>
             </div>

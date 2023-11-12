@@ -40,17 +40,17 @@ class Ficha(db.Model):
 class MateriaPrima(db.Model):
     __tablename__ = 'materiaprima'
     id_materiaprima = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    referencia_material = db.Column(db.String, nullable=False)
+    referencia_material = db.Column(db.String(255), nullable=False)
     nome_material = db.Column(db.String(100), nullable=False)
 
 
 class EstoqueMateriaPrima(db.Model):
     __tablename__ = 'estoquemateriaprima'
-
-    materiaprima = db.Column(db.Integer, db.ForeignKey('materiaprima.id_materiaprima'), primary_key=True)
+    id_estoque = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    materiaprima = db.Column(db.Integer, db.ForeignKey('materiaprima.id_materiaprima'))
     quantidade = db.Column(db.Integer)
-    data_entrada = db.Column(db.String, nullable=False)
-    data_validade= db.Column(db.String, nullable=False)
+    data_entrada = db.Column(db.String(10), nullable=False)
+    data_validade= db.Column(db.String(10), nullable=False)
 
     # rl_materiaprima = db.relationship('MateriaPrima', backref='estoque_produto', primaryjoin='estoquemateriaprima.materiaprima == materiaprima.id_materiaprima')
 

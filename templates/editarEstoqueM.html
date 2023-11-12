@@ -1,0 +1,37 @@
+{% extends "template.html" %}
+{% block conteudo %}
+<div class="container-sm ">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-md-10 ">
+            <form class="form-control mb-4" action="{{ url_for('atualizarEstoqueMateriaPrima')}}" method="POST" enctype="multipart/form-data">
+                <h1 class="text-primary-emphasis">{{ titulo }}</h1>
+                <fieldset>
+                    <input type="hidden" name="id_estoque" value="{{ id_estoque }}">
+                    {{ form.csrf_token() }}
+                    <div class="form-group">
+                        {{ form.materia_prima.label(class="form-label") }}
+                        {{ form.materia_prima(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.quantidade.label(class="form-label") }}
+                        {{ form.quantidade(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.data_entrada.label(class="form-label") }}
+                        {{ form.data_entrada(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.data_validade.label(class="form-label") }}
+                        {{ form.data_validade(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.salvar(class="btn btn-primary") }}
+                        <a class="btn btn-danger" href="{{ url_for('listaEstoqueMateriaPrima') }}">Voltar</a>
+                    </div>
+                </fieldset>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

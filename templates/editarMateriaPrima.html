@@ -1,0 +1,29 @@
+{% extends "template.html" %}
+{% block conteudo %}
+<div class="container-sm ">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-md-10 ">
+            <form class="form-control mb-4" action="{{url_for('atualizarMateriaPrima')}}" method="POST" enctype="multipart/form-data">
+                <h1 class="text-primary-emphasis">{{ titulo }}</h1>
+                <fieldset>
+                    <input type="hidden" name="id_materiaprima" value="{{ id_materiaprima }}">
+                    {{ form.csrf_token() }}
+                    <div class="form-group">
+                        {{ form.referencia_material.label(class="form-label") }}
+                        {{ form.referencia_material(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.nome_material.label(class="form-label") }}
+                        {{ form.nome_material(class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.salvar(class="btn btn-primary") }}
+                        <a class="btn btn-danger" href="{{ url_for('listaMateriaPrima') }}">Voltar</a>
+                    </div>
+                </fieldset>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -3,8 +3,8 @@ from app_tg import app
 from app_tg import db
 from models import *
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, validators, SelectField, IntegerField
-
+from wtforms import StringField, SubmitField, PasswordField, validators, SelectField, IntegerField, DateField
+from wtforms.validators import DataRequired
 
 class FormUsuario(FlaskForm):
     nickname = StringField('Nome de Usuário',  [validators.DataRequired(), validators.Length(min=1, max=50)], render_kw={ "placeholder" : "User"})
@@ -25,11 +25,11 @@ class FormFornecedores(FlaskForm):
     salvar = SubmitField('Salvar')
 
 class FormCadastraMateriaPrima(FlaskForm):
-    referencia_material = StringField('Referencia',
-                                      [validators.DataRequired(),
+    referencia_material= StringField('Referência Materia Prima',
+                                       [validators.DataRequired(),
                                        validators.Length(min=1, max=255)],
                                       render_kw = {"placeholder": "bo00123"})
-    nome_material = StringField('Nome',
+    nome_material = StringField('Nome Materia Prima',
                                 [validators.DataRequired(),
                                  validators.Length(min=1, max=100)],
                                 render_kw={"placeholder": "Borracha"})
@@ -52,8 +52,8 @@ class EstoqueMateriaPrima(FlaskForm):
 
 
 class FormClientes(FlaskForm):
-    documento = StringField('Documento', [validators.DataRequired(), validators.Length(min=1, max=18)])
     nome = StringField('Nome', [validators.DataRequired(), validators.Length(min=1, max=18)])
+    documento = StringField('Documento', [validators.DataRequired(), validators.Length(min=1, max=18)])
     cep = StringField('CEP', [validators.DataRequired(), validators.Length(min=1, max=10)])
     cidade = StringField('Cidade', [validators.DataRequired(), validators.Length(min=1, max=100)])
     estado = StringField('Estado', [validators.DataRequired(), validators.Length(min=1, max=50)])
@@ -64,19 +64,15 @@ class FormClientes(FlaskForm):
     salvar = SubmitField('Salvar')
 
 
-# class FormRegistrarMaterial(FlaskForm):
-class FormRegistrarPedidos(FlaskForm):
-    select_cliente = SelectField('Cliente', coerce=int, validators=[validators.DataRequired()])
-    select_item = SelectField('Item', coerce=int, validators=[validators.DataRequired()])
-    quantidade = IntegerField('Quantidade',
-                              validators=[validators.DataRequired(), validators.NumberRange(min=0, max=1000)])
-    select_tamanho = SelectField('Tamanho', coerce=int, validators=[validators.DataRequired()])
-    salvar = SubmitField('Salvar Pedido')
+class EstoqueMateriaPrimaForm(FlaskForm):
+    materia_prima = SelectField('Matéria Prima', coerce=int, validators=[DataRequired()])
+    quantidade = IntegerField('Quantidade', validators=[DataRequired()])
+    data_entrada = DateField('Data de Entrada (YYYY-MM-DD)', validators=[DataRequired()])
+    data_validade = DateField('Data de Validade (YYYY-MM-DD)', validators=[DataRequired()])
+    salvar = SubmitField('Salvar')
 
     def __init__(self, *args, **kwargs):
-        super(FormRegistrarPedidos, self).__init__(*args, **kwargs)
-        self.select_cliente.choices = [(cliente.id_cliente, cliente.nome) for cliente in Clientes.query.all()]
-        self.select_item.choices = [(item.id_item, item.referencia) for item in Item.query.all()]
-        self.select_tamanho.choices = [(tamanho.id_tamanho, tamanho.tamanho_item) for tamanho in Tamanho.query.all()]
+        super(EstoqueMateriaPrimaForm, self).__init__(*args, **kwargs)
 
-
+        # Popule as opções do campo materia_prima
+        self.materia_prima.choices = [(mp.id_materiaprima, mp.nome_material) for mp in MateriaPrima.query.all()]

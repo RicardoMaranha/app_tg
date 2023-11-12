@@ -1,0 +1,35 @@
+{% extends "template.html" %}
+{% block conteudo %}
+<div class="container-sm ">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-md-10 ">
+            <form class="form-control mb-4" action="/criarEstoqueMateriaPrima" method="POST" enctype="multipart/form-data">
+                <h1 class="text-primary-emphasis">{{ titulo }}</h1>
+                <fieldset>
+                      {{ form.csrf_token() }}
+                      <div class="mb-3">
+                        {{ form.materia_prima.label(class="form-label") }}
+                        {{ form.materia_prima(class="form-control") }}
+                      </div>
+                      <div class="mb-3">
+                        {{ form.quantidade.label(class="form-label") }}
+                        {{ form.quantidade(class="form-control") }}
+                      </div>
+                      <div class="mb-3">
+                        {{ form.data_entrada.label(class="form-label") }}
+                        {{ form.data_entrada(class="form-control") }}
+                      </div>
+                      <div class="mb-3">
+                        {{ form.data_validade.label(class="form-label") }}
+                        {{ form.data_validade(class="form-control") }}
+                      </div>
+                      <div class="mb-3">
+                        {{ form.salvar(class="btn btn-primary") }}
+                      </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Campo Endereço -->
+{% endblock %}
