@@ -49,6 +49,7 @@ class EstoqueMateriaPrima(db.Model):
     id_estoque = db.Column(db.Integer, primary_key=True, autoincrement=True)
     materiaprima = db.Column(db.Integer, db.ForeignKey('materiaprima.id_materiaprima'))
     quantidade = db.Column(db.Integer)
+    tipo =db.Column(db.String(50), nullable=False)
     data_entrada = db.Column(db.String(10), nullable=False)
     data_validade= db.Column(db.String(10), nullable=False)
 

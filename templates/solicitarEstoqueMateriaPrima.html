@@ -1,0 +1,27 @@
+{% extends "template.html" %}
+{% block conteudo %}
+<div class="container-sm ">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-md-10 ">
+            <form class="form-control mb-4" action="{{ url_for('retirarEstoqueMateriaPrima', id_estoque=estoque.id_estoque )}}" method="POST" enctype="multipart/form-data">
+                <h1 class="text-primary-emphasis">{{ titulo }}</h1>
+                <fieldset>
+                    <input type="hidden" name="id_estoque" value="{{ id_estoque }}">
+                    {{ form.csrf_token() }}
+                    <h3 class="text-primary-emphasis">{{ nome }}</h3>
+                    <div class="form-group">
+                        {{ form.quantidade.label(class="form-label") }}
+                        {{ form.quantidade(class="form-control") }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.retirar(class="btn btn-primary") }}
+                        <a class="btn btn-danger" href="{{ url_for('listaEstoqueMateriaPrima') }}">Voltar</a>
+                    </div>
+                </fieldset>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -126,6 +126,7 @@ TABLES['EstoqueMateriaPrima'] = ('''
     `id_estoque` int NOT NULL AUTO_INCREMENT,
     `materiaprima` int NOT NULL,
     `quantidade` int NOT NULL,
+    `tipo` varchar(50),
     `data_entrada` varchar(10) NOT NULL,
     `data_validade` varchar(10),
     PRIMARY KEY (`id_estoque`),
@@ -160,9 +161,8 @@ for tabela_nome in TABLES:
 # inserindo usuarios
 usuario_sql = 'INSERT INTO usuarios (nome, nickname, senha) VALUES (%s, %s, %s)'
 usuarios = [
-      ("Bruno Divino", "BD", "alohomora"),
-      ("Camila Ferreira", "Mila", "paozinho"),
-      ("Ricardo", "Rickmaranha", "Cecilia")
+      ("Ricardo", "RicardoM", "123456"),
+      ("Rhayssa", "RhayssaA", "123456"),
 ]
 cursor.executemany(usuario_sql, usuarios)
 
@@ -171,20 +171,35 @@ print(' -------------  Usuários:  -------------')
 for user in cursor.fetchall():
     print(user[1])
 
+# inserindo Clientes
+clientes_sql = 'INSERT INTO clientes (documento, nome, cep, cidade, estado, rua, numero, telefone, email) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
+clientes = [
+      ('0000111/0001', 'Batman ', '14407-216', 'Franca', 'SP', 'Rua Abel Vergani Filho', '1465', '1633333333','batman@gmail.com'),
+      ('0000333/0002', 'Robin ', '14408-136', 'Franca', 'SP', 'Rua Domingos', '730', '1634341616','robin@gmail.com'),
+      
+]
+cursor.executemany(clientes_sql, clientes)
+
+cursor.execute('select * from banco_tg.clientes')
+print(' -------------  Clientes:  -------------')
+for cliente in cursor.fetchall():
+    print(cliente[1])
+
 # inserindo fornecedores
 fornecedores_sql = 'INSERT INTO fornecedores (cnpj, nome, cep, cidade, estado, rua, numero, telefone, email) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
 fornecedores = [
-      ('0000111/0001', 'Ricardo SA', '14407-216', 'Franca', 'SP', 'Rua Abel Vergani Filho', '1465', '1633333333','ricardo@gmail.com'),
-      ('0000333/0002', 'Cecilia SA', '14408-136', 'Franca', 'SP', 'Rua Domingos', '730', '1634341616','cecilia@gmail.com'),
-      
+      ('0000111/0001', 'Ricardo SA', '14407-216', 'Franca', 'SP', 'Rua Abel Vergani Filho', '1465', '1633333333',
+       'ricardo@gmail.com'),
+      ('0000333/0002', 'Cecilia SA', '14408-136', 'Franca', 'SP', 'Rua Domingos', '730', '1634341616',
+       'cecilia@gmail.com'),
+
 ]
 cursor.executemany(fornecedores_sql, fornecedores)
 
 cursor.execute('select * from banco_tg.fornecedores')
 print(' -------------  fornecedores:  -------------')
 for fornecedor in cursor.fetchall():
-    print(fornecedor[1])
-
+      print(fornecedor[1])
 
 # inserindo Itens
 item_sql = 'INSERT INTO item (referencia, descricao) VALUES (%s, %s)'

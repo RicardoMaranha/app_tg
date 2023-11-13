@@ -15,8 +15,14 @@
                 {{ form.senha.label(class="form-label") }}
                 {{ form.senha(class="form-control") }}
             </div>
-            <div class="">
-                {{ form.login(class="button1") }}
+            <div class="inputform">
+                {{ form.login(class="btn btn-primary") }}
+            </div>
+        </form>
+        <form method="post" action="/logout">
+            {{ form.csrf_token() }}
+            <div class="inputform" action="/logout"  method="post">
+                {{ form.logout(class="btn btn-danger")}}
             </div>
 
         </form>

@@ -39,8 +39,8 @@
                                     <td>{{ 'CEP:{} - {}/{}-{}, {}'.format(cliente.cep,cliente.cidade,cliente.estado,cliente.rua,cliente.numero)}}</td>
                                     <td>{{ cliente.telefone}}</td>
                                     <td>{{ cliente.email}}</td>
-                                    <td><a href="{{url_for('editarCliente', id_cliente=cliente.id_cliente)}}" >Editar</a></td>
-                                    <td><a href="{{url_for('excluirCliente', id_cliente=cliente.id_cliente)}}" >Excluir</a></td>
+                                    <td><a  class="btn btn-primary" href="{{url_for('editarCliente', id_cliente=cliente.id_cliente)}}" >Editar</a></td>
+                                    <td><a class="btn btn-danger" href="{{url_for('excluirCliente', id_cliente=cliente.id_cliente)}}" >Excluir</a></td>
 
                                     <td></td>
                                 </tr>

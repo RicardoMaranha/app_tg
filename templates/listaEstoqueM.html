@@ -24,8 +24,10 @@
                             <tr class="table-light">
                                 <th class="table-light">Materia Prima</th>
                                 <th class="table-light">Quantidade</th>
+                                <th class="table-light">Tipo</th>
                                 <th class="table-light">Data de Entrada</th>
                                 <th class="table-light">Data de Validade</th>
+                                <th>Retirar</th>
                                 <th>Editar</th>
                                 <th>Excluir</th>
                             </tr>
@@ -35,11 +37,12 @@
                                 <tr class="table-light">
                                     <td>{{ materiaprima.nome_material }}</td>
                                     <td>{{ estoquemateriaprima.quantidade }}</td>
+                                    <td>{{ estoquemateriaprima.tipo }}</td>
                                     <td>{{ estoquemateriaprima.data_entrada}}</td>
                                     <td>{{ estoquemateriaprima.data_validade}}</td>
-                                    <td><a href="{{url_for( 'editarEstoqueMateriaPrima', id_estoque=estoquemateriaprima.id_estoque ) }}" >Editar</a></td>
-                                    <td><a href="{{url_for( 'excluirEstoqueMateriaPrima', id_estoque=estoquemateriaprima.id_estoque ) }}" >Excluir</a></td>
-
+                                    <td><a class="btn btn-info" href="{{url_for( 'solicitarEstoqueMateriaPrima', id_estoque=estoquemateriaprima.id_estoque ) }}" >Retirar</a></td>
+                                    <td><a class="btn btn-primary" href="{{url_for( 'editarEstoqueMateriaPrima', id_estoque=estoquemateriaprima.id_estoque ) }}" >Editar</a></td>
+                                    <td><a class="btn btn-danger" href="{{url_for( 'excluirEstoqueMateriaPrima', id_estoque=estoquemateriaprima.id_estoque ) }}" >Excluir</a></td>
                                     <td></td>
                                 </tr>
                                 {% endfor %}
@@ -55,6 +58,7 @@
             </div>
         </bs5-grid-row>
     </div>
+
 {% endblock %}
 
 

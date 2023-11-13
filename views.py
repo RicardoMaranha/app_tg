@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, session, flash, url_for
 from app_tg import app, db
 from models import Fornecedores, Usuarios, Clientes, MateriaPrima, EstoqueMateriaPrima
-from helpers import FormUsuario, FormFornecedores, FormCadastraMateriaPrima, FormClientes, EstoqueMateriaPrimaForm
+from helpers import FormUsuario, FormFornecedores, FormCadastraMateriaPrima, FormClientes, EstoqueMateriaPrimaForm, solicitarEstoqueMateriaPrimaForm
 from datetime import datetime
 
 # Rotas Pagina Inicial
@@ -26,9 +26,9 @@ def autenticar():
             session['usuario_logado'] = usuario.nickname
             flash(usuario.nickname + ' logado com sucesso!')
             proxima_pagina = request.form['proxima']
-            return redirect(proxima_pagina)  # Redireciona para a rota de destino
+            return redirect(proxima_pagina)
         else:
-            return redirect(url_for('login'))  # Redireciona para a página padrão se 'proxima' não estiver presente
+            return redirect(url_for('login'))
 
     else:
         flash('Usuario não logado')
@@ -36,11 +36,11 @@ def autenticar():
 
 
 #Rota para logout
-@app.route('/logout')
+@app.route('/logout', methods=['POST',])
 def logout():
     session['usuario_logado'] = None
     flash('Logout efetuado com sucesso!')
-    return redirect('/')
+    return redirect('/login')
 
 
 # Rota Listar Fornecedores
@@ -340,12 +340,14 @@ def criarEstoqueMateriaPrima():
         # Acesse os dados do formulário
         materia_prima_id = form.materia_prima.data
         quantidade = form.quantidade.data
+        tipo = form.tipo.data
         data_entrada = form.data_entrada.data
         data_validade = form.data_validade.data
 
         estoque_materia_prima = EstoqueMateriaPrima(
             materiaprima=materia_prima_id,
             quantidade=quantidade,
+            tipo=tipo,
             data_entrada=data_entrada,
             data_validade=data_validade
         )
@@ -367,6 +369,7 @@ def editarEstoqueMateriaPrima(id_estoque):
     form = EstoqueMateriaPrimaForm()
     form.materia_prima.data = estoque.materiaprima
     form.quantidade.data = estoque.quantidade
+    form.tipo.data = estoque.tipo
     form.data_entrada.data = datetime.strptime(estoque.data_entrada, '%Y-%m-%d')
     form.data_validade.data = datetime.strptime(estoque.data_validade, '%Y-%m-%d')
 
@@ -384,12 +387,52 @@ def atualizarEstoqueMateriaPrima():
         estoque = EstoqueMateriaPrima.query.filter_by(id_estoque=request.form['id_estoque']).first()
         estoque.materiaprima = form.materia_prima.data
         estoque.quantidade = form.quantidade.data
+        estoque.tipo = form.tipo.data
         estoque.data_entrada = form.data_entrada.data
         estoque.data_validade = form.data_validade.data
         db.session.add(estoque)
         db.session.commit()
 
     return redirect(url_for('listaEstoqueMateriaPrima'))
+
+
+@app.route('/solicitarEstoqueMateriaPrima/<int:id_estoque>')
+def solicitarEstoqueMateriaPrima(id_estoque):
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login',
+                                proxima=url_for('solicitarEstoqueMateriaPrima',
+                                                         id_estoque=id_estoque)))
+
+    estoque = EstoqueMateriaPrima.query.get(id_estoque)
+    nome_material = MateriaPrima.query.get(estoque.materiaprima)
+
+    nome = nome_material.nome_material if nome_material else None
+    form = solicitarEstoqueMateriaPrimaForm()
+    form.quantidade.data = estoque.quantidade
+
+
+
+    return render_template("solicitarEstoqueMateriaPrima.html", form=form,
+                           titulo='Solicitar Retirada de Materia Prima', nome=nome,
+                           id_estoque=estoque.id_estoque, estoque=estoque)
+
+# Retirar Matéria Prima
+@app.route('/retirarEstoqueMateriaPrima/<int:id_estoque>',methods=['POST',])
+def retirarEstoqueMateriaPrima(id_estoque):
+    # Use o método get para obter a instância do EstoqueMateriaPrima pelo ID
+    material = EstoqueMateriaPrima.query.get(id_estoque)
+
+    if material:
+        quantidade_retirar = int(request.form['quantidade'])
+
+        # Verifique se a quantidade a ser retirada é válida
+        if 0 < quantidade_retirar <= material.quantidade:
+            material.quantidade -= quantidade_retirar
+            db.session.commit()
+
+    return redirect(url_for('listaEstoqueMateriaPrima'))
+
+
 
 #Excluir Estoque
 @app.route('/excluirEstoqueMateriaPrima/<int:id_estoque>')
@@ -403,47 +446,5 @@ def excluirEstoqueMateriaPrima(id_estoque):
     return redirect(url_for('listaEstoqueMateriaPrima'))
 
 
-#Rotas não implementada
-'''
-@app.route('/listaPedidos')
-def listaPedidos():
-    pedidos = db.session.query(Pedidos, Clientes, Item, Tamanho).join(Clientes).join(Item).join(Tamanho).all()
-    print(pedidos)
-    return render_template('listaPedidos.html', pedidos=pedidos)
-
-
-# Rota para Registrar Pedido
-@app.route('/registrarPedido')
-def registrarPedido():
-    if 'usuario_logado' not in session or session['usuario_logado'] == None:
-        return redirect(url_for('login', proxima=url_for('registrarPedido')))
-    form = FormRegistrarPedidos(request.form)
-    return render_template('registrarPedido.html', titulo='Registrar Pedido', form=form)
-
-
-# Rota para criar Pedido
-@app.route('/criarPedido', methods=['POST', ])
-def criarPedido():
-    form = FormRegistrarPedidos(request.form)
-    if not form.validate_on_submit():
-        return redirect(url_for('registrarPedido'))
-
-    select_cliente = form.select_cliente.data
-    select_item = form.select_item.data
-    select_tamanho = form.select_tamanho.data
-    quantidade = form.quantidade.data
-
-    pedido = Pedidos.query.filter_by(id_cliente=select_cliente).first()
-    tamanho = Tamanho.query.filter_by(id_tamanho=select_tamanho).first()
-
-    novo_pedido = Pedidos(id_cliente=select_cliente,
-                          id_item=select_item,
-                          sel_tamanho=select_tamanho,
-                          quantidade=quantidade)
-    db.session.add(novo_pedido)
-    db.session.commit()
-    return redirect(url_for('listaPedidos'))
-
-'''
 
 

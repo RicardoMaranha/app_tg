@@ -39,8 +39,8 @@
                             <td>{{ 'CEP:{} - {}/{}-{}, {}'.format(fornecedor.cep,fornecedor.cidade,fornecedor.estado,fornecedor.rua,fornecedor.numero)}}</td>
                             <td>{{ fornecedor.telefone}}</td>
                             <td>{{ fornecedor.email}}</td>
-                            <td><a href="{{url_for('editarFornecedor', id_fornecedor=fornecedor.id_fornecedor)}}" >Editar</a></td>
-                            <td><a href="{{url_for('excluirFornecedor', id_fornecedor=fornecedor.id_fornecedor)}}" >Excluir</a></td>
+                            <td><a class="btn btn-primary" href="{{url_for('editarFornecedor', id_fornecedor=fornecedor.id_fornecedor)}}" >Editar</a></td>
+                            <td><a class="btn btn-danger" href="{{url_for('excluirFornecedor', id_fornecedor=fornecedor.id_fornecedor)}}" >Excluir</a></td>
                             <td></td>
                         </tr>
                         {% endfor %}

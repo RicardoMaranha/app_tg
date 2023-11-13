@@ -35,8 +35,8 @@
                                     <td>{{ material.id_materiaprima }}</td>
                                     <td>{{ material.referencia_material }}</td>
                                     <td>{{ material.nome_material}}</td>
-                                    <td><a href="{{ url_for('editarMateriaPrima',id_materiaprima=material.id_materiaprima)}}" >Editar</a></td>
-                                    <td><a href="{{ url_for('excluirMateriaPrima',id_materiaprima=material.id_materiaprima)}}" >Excluir</a></td>
+                                    <td><a class="btn btn-primary" href="{{ url_for('editarMateriaPrima',id_materiaprima=material.id_materiaprima)}}" >Editar</a></td>
+                                    <td><a class="btn btn-danger" href="{{ url_for('excluirMateriaPrima',id_materiaprima=material.id_materiaprima)}}" >Excluir</a></td>
                                 </tr>
                                 {% endfor %}
 
