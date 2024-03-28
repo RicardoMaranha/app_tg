@@ -28,3 +28,4 @@ db.sqlite3
 # Dependências geradas automaticamente
 pip-log.txt
 pip-delete-this-directory.txt
+requirements.txt
