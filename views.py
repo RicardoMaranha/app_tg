@@ -14,7 +14,7 @@ def inicio():
 def login():
     proxima = request.args.get('proxima')
     form = FormUsuario()
-    return render_template('login.html', proxima=proxima,titulo='Login', form=form)
+    return render_template('login.html', proxima=proxima, titulo='Login', form=form)
 
 #Rotas para autenticar Usuário
 @app.route('/autenticar', methods=['POST', 'GET', ])
@@ -131,7 +131,7 @@ def atualizarFornecedor():
 
     return redirect(url_for('listaFornecedor'))
 
-# Rota Excluir
+# Rota Excluir Fornecedor
 @app.route('/excluirFornecedor/<int:id_fornecedor>')
 def excluirFornecedor(id_fornecedor):
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
@@ -320,10 +320,14 @@ def excluirMateriaPrima(id_materiaprima):
 #Lista Estoque Materia Prima
 @app.route('/listaEstoqueMateriaPrima')
 def listaEstoqueMateriaPrima():
-    materiais = db.session.query(MateriaPrima, EstoqueMateriaPrima).join(EstoqueMateriaPrima, MateriaPrima.id_materiaprima == EstoqueMateriaPrima.materiaprima).all()
+    materiais = db.session.query(MateriaPrima, EstoqueMateriaPrima).join(EstoqueMateriaPrima,
+                                                                         MateriaPrima.id_materiaprima ==
+                                                                         EstoqueMateriaPrima.materiaprima).all()
 
     return render_template('listaEstoqueM.html', titulo='Estoque Materia Prima', materiais=materiais)
 
+
+# Rota para formulário  de cadastro de estoque de matéria prima
 @app.route('/cadastraEstoqueMateriaPrima')
 def cadastraEstoqueMateriaPrima():
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
@@ -332,7 +336,7 @@ def cadastraEstoqueMateriaPrima():
     form.materia_prima.choices = [(m.id_materiaprima, m.nome_material) for m in MateriaPrima.query.all()]
     return render_template('cadastraEstoqueMateriaPrima.html', titulo='Cadastro de Estoque Materia Prima', form=form)
 
-
+# Rota para criar estoque de materia prima
 @app.route('/criarEstoqueMateriaPrima', methods=['GET','POST', ])
 def criarEstoqueMateriaPrima():
     form = EstoqueMateriaPrimaForm()
@@ -378,7 +382,7 @@ def editarEstoqueMateriaPrima(id_estoque):
                            titulo='Editar Materia Prima',
                            id_estoque=estoque.id_estoque)
 
-
+# Rota para Atualizar Estoque de Materia Prima
 @app.route('/atualizarEstoqueMateriaPrima', methods=['POST',])
 def atualizarEstoqueMateriaPrima():
     form = EstoqueMateriaPrimaForm(request.form)
@@ -395,7 +399,7 @@ def atualizarEstoqueMateriaPrima():
 
     return redirect(url_for('listaEstoqueMateriaPrima'))
 
-
+# Rota do formulário para retirar matéria prima do estoque
 @app.route('/solicitarEstoqueMateriaPrima/<int:id_estoque>')
 def solicitarEstoqueMateriaPrima(id_estoque):
     if 'usuario_logado' not in session or session['usuario_logado'] == None:

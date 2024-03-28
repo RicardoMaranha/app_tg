@@ -1,7 +1,5 @@
 from app_tg import db
 
-
-
 class Usuarios(db.Model):
     nickname = db.Column(db.String(50), primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
@@ -36,14 +34,14 @@ class Ficha(db.Model):
     telefone = db.Column(db.String(50))
     email = db.Column(db.String(50))
 
-
+# Classe tipo da Materia Prima
 class MateriaPrima(db.Model):
     __tablename__ = 'materiaprima'
     id_materiaprima = db.Column(db.Integer, primary_key=True, autoincrement=True)
     referencia_material = db.Column(db.String(255), nullable=False)
     nome_material = db.Column(db.String(100), nullable=False)
 
-
+# Classe Estoque de Materia Prima
 class EstoqueMateriaPrima(db.Model):
     __tablename__ = 'estoquemateriaprima'
     id_estoque = db.Column(db.Integer, primary_key=True, autoincrement=True)
