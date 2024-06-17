@@ -320,9 +320,11 @@ def excluirMateriaPrima(id_materiaprima):
 #Lista Estoque Materia Prima
 @app.route('/listaEstoqueMateriaPrima')
 def listaEstoqueMateriaPrima():
-    materiais = db.session.query(MateriaPrima, EstoqueMateriaPrima).join(EstoqueMateriaPrima,
-                                                                         MateriaPrima.id_materiaprima ==
-                                                                         EstoqueMateriaPrima.materiaprima).all()
+    materiais = db.session.query(Fornecedores, MateriaPrima, EstoqueMateriaPrima).\
+        join(EstoqueMateriaPrima, MateriaPrima.id_materiaprima == EstoqueMateriaPrima.materiaprima).\
+        join(Fornecedores, Fornecedores.id_fornecedor == EstoqueMateriaPrima.fornecedor).all()
+
+    
 
     return render_template('listaEstoqueM.html', titulo='Estoque Materia Prima', materiais=materiais)
 
@@ -334,6 +336,7 @@ def cadastraEstoqueMateriaPrima():
         return redirect(url_for('login', proxima=url_for('cadastraEstoqueMateriaPrima')))
     form = EstoqueMateriaPrimaForm(request.form)
     form.materia_prima.choices = [(m.id_materiaprima, m.nome_material) for m in MateriaPrima.query.all()]
+    form.fornecedor.choices = [(f.id_fornecedor, f.nome) for f in Fornecedores.query.all()]
     return render_template('cadastraEstoqueMateriaPrima.html', titulo='Cadastro de Estoque Materia Prima', form=form)
 
 # Rota para criar estoque de materia prima
@@ -345,15 +348,20 @@ def criarEstoqueMateriaPrima():
         materia_prima_id = form.materia_prima.data
         quantidade = form.quantidade.data
         tipo = form.tipo.data
+        preco = form.preco.data
         data_entrada = form.data_entrada.data
         data_validade = form.data_validade.data
-
+        fornecedor = form.fornecedor.data
+        descricao = form.descricao.data
         estoque_materia_prima = EstoqueMateriaPrima(
             materiaprima=materia_prima_id,
             quantidade=quantidade,
             tipo=tipo,
+            preco=preco,
             data_entrada=data_entrada,
-            data_validade=data_validade
+            data_validade=data_validade,
+            fornecedor=fornecedor,
+            descricao=descricao
         )
         db.session.add(estoque_materia_prima)
         db.session.commit()
@@ -374,8 +382,11 @@ def editarEstoqueMateriaPrima(id_estoque):
     form.materia_prima.data = estoque.materiaprima
     form.quantidade.data = estoque.quantidade
     form.tipo.data = estoque.tipo
+    form.preco.data = estoque.preco
     form.data_entrada.data = datetime.strptime(estoque.data_entrada, '%Y-%m-%d')
     form.data_validade.data = datetime.strptime(estoque.data_validade, '%Y-%m-%d')
+    form.fornecedor.data = estoque.fornecedor
+    form.descricao.data = estoque.descricao
 
 
     return render_template("editarEstoqueM.html", form=form,

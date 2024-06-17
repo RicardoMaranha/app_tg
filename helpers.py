@@ -3,7 +3,7 @@ from app_tg import app
 from app_tg import db
 from models import *
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, validators, SelectField, IntegerField, DateField, HiddenField
+from wtforms import StringField, SubmitField, PasswordField, validators, SelectField, IntegerField, DateField, HiddenField, FloatField
 from wtforms.validators import DataRequired, NumberRange
 
 class FormUsuario(FlaskForm):
@@ -66,12 +66,15 @@ class FormClientes(FlaskForm):
 
 
 class EstoqueMateriaPrimaForm(FlaskForm):
-    tipos = ['placa','gr','kg', 'lt', 'ml']
+    tipos = ['placa','gr','kg', 'lt', 'ml', 'unidade']
     materia_prima = SelectField('Matéria Prima', coerce=int, validators=[DataRequired()])
     quantidade = IntegerField('Quantidade', validators=[DataRequired()])
     tipo = SelectField('Tipo', choices=tipos)
+    preco = FloatField('Preço', validators=[DataRequired()])
     data_entrada = DateField('Data de Entrada (YYYY-MM-DD)', validators=[DataRequired()])
     data_validade = DateField('Data de Validade (YYYY-MM-DD)', validators=[DataRequired()])
+    fornecedor = SelectField('Fornecedor', coerce=int, validators=[DataRequired()])
+    descricao = StringField('Descrição', [validators.DataRequired()])
     salvar = SubmitField('Salvar')
 
     def __init__(self, *args, **kwargs):
@@ -79,7 +82,8 @@ class EstoqueMateriaPrimaForm(FlaskForm):
 
         # Popule as opções do campo materia_prima
         self.materia_prima.choices = [(mp.id_materiaprima, mp.nome_material) for mp in MateriaPrima.query.all()]
-
+        # Popule as opções do campo fornecedores
+        self.fornecedor.choices = [(f.id_fornecedor, f.nome) for f  in Fornecedores.query.all()]
 
 class solicitarEstoqueMateriaPrimaForm(FlaskForm):
     id_estoque = HiddenField('ID Estoque', validators=[DataRequired()])

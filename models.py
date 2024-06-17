@@ -48,8 +48,23 @@ class EstoqueMateriaPrima(db.Model):
     materiaprima = db.Column(db.Integer, db.ForeignKey('materiaprima.id_materiaprima'))
     quantidade = db.Column(db.Integer)
     tipo =db.Column(db.String(50), nullable=False)
+    preco = db.Column(db.Numeric(10, 2))
     data_entrada = db.Column(db.String(10), nullable=False)
     data_validade= db.Column(db.String(10), nullable=False)
+    fornecedor = db.Column(db.Integer, db.ForeignKey('fornecedores.id_fornecedor'))
+    descricao = db.Column(db.String(255))
+
+    def pode_retirar_materia_prima(self, quantidade_solicitada):
+        if self.quantidade >= quantidade_solicitada:
+            return True
+        else:
+            return False
+
+    def verificar_aviso_baixo_estoque(self):
+        if self.quantidade < 5:
+            return f"Aviso: Quantidade de {self.materiaprima.nome_material} está baixa ({self.quantidade} unidades restantes)."
+        else:
+            return None
 
     # rl_materiaprima = db.relationship('MateriaPrima', backref='estoque_produto', primaryjoin='estoquemateriaprima.materiaprima == materiaprima.id_materiaprima')
 
@@ -74,6 +89,7 @@ class Item(db.Model):
     referencia = db.Column(db.String(100), nullable=False)
     descricao = db.Column(db.String(255))
 '''
+
 '''
 class Tamanho(db.Model):
     __tablename__ = 'tamanho'
@@ -81,16 +97,18 @@ class Tamanho(db.Model):
     id_tamanho = db.Column(db.Integer, primary_key=True, autoincrement=True)
     tamanho = db.Column(db.String(50), nullable=False)
 '''
-'''
-class EstoqueProduto(db.Model):
-    __tablename__ = 'estoqueproduto'
-    id_item = db.Column(db.Integer, db.ForeignKey('Item.id_item'), primary_key=True)
-    tamanho = db.Column(db.Integer, db.ForeignKey('Tamanho.id_tamanho'))
-    quantidade = db.Column(db.Integer)
-    # Outros campos relacionados ao estoque
-    rl_item = db.relationship('Item', backref='estoque_produto', uselist=False, primaryjoin='estoqueproduto.id_item == item.id_item')
-    rl_tamanho = db.relationship('Tamanho', backref='estoque_produto', uselist=False, primaryjoin='estoqueproduto.tamanho == tamanho.id_tamanho')
-'''
+
+class EstoqueProdutoAcabado(db.Model):
+    __tablename__ = 'estoque_produto_acabado'
+
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(255), nullable=False)
+    quantidade = db.Column(db.Integer, nullable=False)
+    preco = db.Column(db.Numeric(10, 2), nullable=False)
+    data_entrada = db.Column(db.Date, nullable=False)
+    data_validade = db.Column(db.Date)
+    fornecedor = db.Column(db.String(255))
+    categoria = db.Column(db.String(50))
 
 '''
 class ProdutoMateriaPrima(db.Model):

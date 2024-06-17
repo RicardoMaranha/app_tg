@@ -20,12 +20,24 @@
                         {{ form.tipo(class="form-control") }}
                       </div>
                       <div class="mb-3">
+                        {{ form.preco.label(class="form-label") }}
+                        {{ form.preco(class="form-control") }}
+                      </div>
+                      <div class="mb-3">
                         {{ form.data_entrada.label(class="form-label") }}
                         {{ form.data_entrada(class="form-control") }}
                       </div>
                       <div class="mb-3">
                         {{ form.data_validade.label(class="form-label") }}
                         {{ form.data_validade(class="form-control") }}
+                      </div>
+                      <div class="mb-3">
+                        {{ form.fornecedor.label(class="form-label") }}
+                        {{ form.fornecedor(class="form-control") }}
+                      </div>
+                      <div class="mb-3">
+                        {{ form.descricao.label(class="form-label") }}
+                        {{ form.descricao(class="form-control") }}
                       </div>
                       <div class="mb-3">
                         {{ form.salvar(class="btn btn-primary") }}

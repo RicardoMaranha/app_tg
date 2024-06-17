@@ -6,7 +6,7 @@ try:
       conn = mysql.connector.connect(
             host='127.0.0.1',
             user='root',
-            password='Cecilia-260320'
+            password='123456'
       )
 except mysql.connector.Error as err:
       if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
@@ -127,10 +127,14 @@ TABLES['EstoqueMateriaPrima'] = ('''
     `materiaprima` int NOT NULL,
     `quantidade` int NOT NULL,
     `tipo` varchar(50),
+    `preco` float,
     `data_entrada` varchar(10) NOT NULL,
     `data_validade` varchar(10),
+    `fornecedor` int,
+    `descricao` varchar(255),
     PRIMARY KEY (`id_estoque`),
-    FOREIGN KEY (`materiaprima`) REFERENCES `materiaprima` (`id_materiaprima`)
+    FOREIGN KEY (`materiaprima`) REFERENCES `materiaprima`(`id_materiaprima`),
+    FOREIGN KEY (`fornecedor`) REFERENCES `fornecedores`(`id_fornecedor`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;''')
 
 
@@ -283,17 +287,17 @@ for material in cursor.fetchall():
 
 
 # inserindo estoque materia prima
-estomaterial_sql = 'INSERT INTO estoquemateriaprima (materiaprima, quantidade, data_entrada, data_validade) VALUES (%s, %s, %s, %s) ON DUPLICATE KEY UPDATE quantidade = quantidade + VALUES (quantidade)'
+estomaterial_sql = 'INSERT INTO estoquemateriaprima (materiaprima, quantidade, tipo, preco, data_entrada, data_validade, fornecedor, descricao) VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE quantidade = quantidade + VALUES (quantidade)'
 estomaterial = [
-      (1, 1000, '2023-11-11', '2024-11-11'),
-      (2, 1000, '2023-11-11', '2024-11-11'),
+      (1, 1000,'placa', 9.90, '2023-11-11', '2024-11-11', 1 ,'Borracha de alta qualide, para solados'),
+      (2, 1000, 'unidade', 2.99, '2023-11-11', '2024-11-11', 2, 'Silicone liquido'),
 ]
 cursor.executemany(estomaterial_sql, estomaterial)
 
 cursor.execute('select * from banco_tg.estoquemateriaprima')
 print(' -------------  Estoque Materia Prima:  -------------')
 for estmaterial in cursor.fetchall():
-      print(f'id_materiaprima: {estmaterial[0]},quantidade {estmaterial[1]}')
+      print(f'id_materiaprima: {estmaterial[0]},Materia_Prima: {estmaterial[1]}, quantidade: {estmaterial[2]} Tipo: {estmaterial[3]}, Preço: R$ {estmaterial[4]}, data_de_entrada: {estmaterial[5]}, data_de_validade: {estmaterial[6]}, fornecedor: {estmaterial[7]}, descrção: {estmaterial[8]} ')
 
 
 
